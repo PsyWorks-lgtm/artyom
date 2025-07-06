@@ -1,0 +1,21 @@
+{
+  "name": "Рабочая тетрадь",
+  "short_name": "Тетрадь",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#315c88",
+  "description": "Рабочая тетрадь для взрослых. Неделя управления тревожностью.",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

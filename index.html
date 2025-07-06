@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Рабочая тетрадь для Артёма — Управление тревожностью</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f5f7fb;
+      --bg-block: #eef1f6;
+      --text-main: #132538; /* Ещё темнее, хороший контраст */
+      --accent: #254e76;
+      --border: #b3bed2;
+      --radius: 19px;
+      --shadow: 0 3px 18px 0 #b5c0d2cc;
+      --btn-main: #315c88;
+      --btn-main-hover: #25476d;
+    }
+    html {
+      box-sizing: border-box;
+      font-size: 18px;
+    }
+    *, *:before, *:after { box-sizing: inherit; }
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Roboto', 'Oswald', Arial, sans-serif;
+      margin: 0;
+      padding: 0 0 60px 0;
+      min-height: 100vh;
+      transition: background 0.8s;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2 {
+      color: var(--accent);
+    }
+    h1 {
+      text-align: center;
+      margin-top: 38px;
+      margin-bottom: 8px;
+      font-size: 2em;
+      letter-spacing: 0.5px;
+      opacity: 0;
+      animation: fadeIn 1.1s 0.12s forwards;
+    }
+    h2 {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 13px;
+      font-weight: 700;
+      font-size: 1.17em;
+      opacity: 0;
+      animation: fadeIn 1.1s 0.22s forwards;
+    }
+    .subtitle, .author {
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1s 0.2s forwards;
+    }
+    .subtitle {
+      color: #183d56;
+      margin-bottom: 6px;
+      font-size: 1.08em;
+    }
+    .author {
+      font-size: 1em;
+      color: #1e3550;
+      margin-bottom: 32px;
+    }
+    .block {
+      background: var(--bg-block);
+      border-radius: var(--radius);
+      margin: 22px auto;
+      padding: 24px 22px 18px 22px;
+      max-width: 510px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+      opacity: 0;
+      transform: translateY(28px);
+      animation: fadeBlock 0.7s cubic-bezier(.56,.04,.42,1.1) forwards;
+      animation-delay: 0.25s;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .block:focus-within, .block:hover {
+      box-shadow: 0 4px 32px 0 #acc3df88;
+      border: 1.5px solid var(--accent);
+    }
+    label {
+      font-size: 1.06em;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      margin: 18px 0 7px 0;
+      transition: color 0.3s;
+    }
+    textarea, input[type="text"], input[type="number"] {
+      width: 100%;
+      min-height: 34px;
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 1em;
+      background: #fafdff;
+      color: var(--text-main);
+      border: 1.4px solid var(--border);
+      border-radius: 9px;
+      padding: 9px;
+      margin-bottom: 8px;
+      resize: vertical;
+      transition: border 0.28s, box-shadow 0.28s;
+      box-shadow: 0 0 0 0 #497aad33;
+    }
+    textarea:focus, input:focus {
+      border: 1.5px solid var(--accent);
+      background: #f4f8fc;
+      box-shadow: 0 0 6px 1px #5d85b422;
+      outline: none;
+    }
+    textarea::placeholder, input::placeholder {
+      color: #597499;
+      opacity: 1;
+      font-size: 0.97em;
+    }
+    .mini {
+      font-size: 0.98em;
+      color: #253e5a;
+      margin-bottom: 10px;
+      margin-top: 6px;
+      transition: color 0.3s;
+    }
+    .info {
+      color: #17344f;
+      text-align: center;
+      font-size: 1em;
+      margin-top: 14px;
+      margin-bottom: 7px;
+      opacity: 0;
+      animation: fadeIn 1.25s 0.34s forwards;
+    }
+    ul {
+      margin-top: 2px;
+      margin-bottom: 15px;
+      padding-left: 18px;
+      color: #17344f;
+      font-size: 0.99em;
+      transition: color 0.2s;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 7px;
+      font-size: 1em;
+      transition: color 0.2s;
+    }
+    .checkbox-row input[type="checkbox"] {
+      margin-right: 11px;
+      transform: scale(1.21);
+      accent-color: var(--accent);
+      transition: accent-color 0.22s;
+    }
+    .btn-accent {
+      background: var(--btn-main);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 22px;
+      font-size: 1.12em;
+      margin: 23px auto 0 auto;
+      cursor: pointer;
+      font-family: inherit;
+      display: block;
+      box-shadow: 0 1px 7px 0 #c4d4e6a0;
+      width: 88%;
+      max-width: 345px;
+      letter-spacing: 0.43px;
+      font-weight: 700;
+      opacity: 0;
+      animation: fadeIn 1.1s 0.32s forwards;
+      transition: background 0.23s, box-shadow 0.2s, transform 0.13s;
+    }
+    .btn-accent:hover, .btn-accent:focus {
+      background: var(--btn-main-hover);
+      box-shadow: 0 2px 16px 0 #b5cce666;
+      transform: scale(1.035);
+      outline: none;
+    }
+    .btn-save {
+      background: #fff;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 1em;
+      font-family: inherit;
+      font-weight: 700;
+      margin: 15px auto 0 auto;
+      display: block;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, border 0.18s;
+    }
+    .btn-save:hover, .btn-save:focus {
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid var(--btn-main-hover);
+      outline: none;
+    }
+    .save-status {
+      text-align: center;
+      font-size: 0.97em;
+      color: #338432;
+      margin: 8px 0 0 0;
+      min-height: 18px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(32px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeBlock {
+      0%   { opacity: 0; transform: translateY(32px);}
+      90%  { opacity: 1; transform: translateY(-3px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 700px) {
+      html { font-size: 17px; }
+      .block { max-width: 99vw; padding: 13px 3vw; }
+      h1 { font-size: 1.4em;}
+    }
+    @media (max-width: 480px) {
+      html { font-size: 15.4px; }
+      .block { padding: 12px 2vw; }
+      .btn-accent { padding: 15px 5vw; font-size: 1.07em;}
+      h1 { font-size: 1.14em;}
+      h2 { font-size: 1.02em;}
+    }
+    @media (max-width: 340px) {
+      html { font-size: 13.3px; }
+    }
+  </style>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#315c88">
+
+</head>
+<body>
+  <h1>Рабочая тетрадь Артёма</h1>
+  <div class="subtitle">Неделя управления тревожностью</div>
+  <div class="author">Автор: Артур П., ваш психолог</div>
+
+  <form id="notebookForm" autocomplete="off">
+  <div class="block" id="block-day1">
+    <h2>День 1: Аудит тревоги</h2>
+    <label>1. Моя тревожность сегодня (0-10):</label>
+    <input type="number" min="0" max="10" name="day1level" placeholder="0-10">
+
+    <label>2. Что меня тревожит прямо сейчас?</label>
+    <textarea name="day1worry" rows="2" placeholder="Запиши свои главные тревоги..."></textarea>
+
+    <label>3. Чем эти тревоги полезны? Что пытаются защитить/предупредить?</label>
+    <textarea name="day1useful" rows="2" placeholder="Есть ли скрытая польза?"></textarea>
+
+    <label>4. Действия, которые я могу предпринять уже сегодня:</label>
+    <textarea name="day1action" rows="2" placeholder="Минимум одно простое действие..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day1')">Сохранить ответы</button>
+    <div class="save-status" id="status-day1"></div>
+  </div>
+
+  <div class="block" id="block-day2">
+    <h2>День 2: Осознание триггеров</h2>
+    <label>1. За сегодня я заметил, что тревожусь когда:</label>
+    <textarea name="day2triggers" rows="2" placeholder="Когда чаще всего появляется тревога?"></textarea>
+
+    <label>2. Мои типичные реакции (поведение, мысли, тело):</label>
+    <textarea name="day2reactions" rows="2" placeholder="Что происходит? Как реагируешь?"></textarea>
+
+    <label>3. Что я могу сделать по-другому? (минимум одно действие)</label>
+    <textarea name="day2newaction" rows="2" placeholder="Попробуй что-то новое в следующий раз..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day2')">Сохранить ответы</button>
+    <div class="save-status" id="status-day2"></div>
+  </div>
+
+  <div class="block" id="block-day3">
+    <h2>День 3: Возврат в настоящее</h2>
+    <label>1. Самоаудит: где мои мысли сейчас?</label>
+    <div class="checkbox-row"><input type="checkbox" name="day3mind" value="Прошлое">Прошлое</div>
+    <div class="checkbox-row"><input type="checkbox" name="day3mind" value="Будущее">Будущее</div>
+    <div class="checkbox-row"><input type="checkbox" name="day3mind" value="Здесь и сейчас">Здесь и сейчас</div>
+
+    <label>2. Быстрая практика: 5 вещей, которые я вижу сейчас:</label>
+    <textarea name="day3see" rows="2" placeholder="Внимательно осмотрись вокруг..."></textarea>
+
+    <label>3. Как изменилось мое состояние после практики?</label>
+    <textarea name="day3state" rows="1" placeholder="Стало легче?"></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day3')">Сохранить ответы</button>
+    <div class="save-status" id="status-day3"></div>
+  </div>
+
+  <div class="block" id="block-day4">
+    <h2>День 4: Мыслеотловление</h2>
+    <label>1. Какая мысль сегодня была самой липкой/навязчивой?</label>
+    <textarea name="day4thought" rows="2" placeholder="Самая цепкая мысль дня..."></textarea>
+
+    <label>2. Что я делал с этой мыслью? (подавил, проиграл, записал, обсудил...)</label>
+    <textarea name="day4action" rows="2" placeholder="Как ты справлялся?"></textarea>
+
+    <label>3. Что сработало, что — нет?</label>
+    <textarea name="day4result" rows="2" placeholder="Запиши выводы..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day4')">Сохранить ответы</button>
+    <div class="save-status" id="status-day4"></div>
+  </div>
+
+  <div class="block" id="block-day5">
+    <h2>День 5: Тело и тревога</h2>
+    <label>1. Где в теле я чувствую тревогу чаще всего?</label>
+    <textarea name="day5body" rows="1" placeholder="Например, грудь, живот, горло..."></textarea>
+
+    <label>2. Что помогает снизить напряжение? (движение, дыхание, спорт, душ...)</label>
+    <textarea name="day5help" rows="2" placeholder="Подумай, что помогает именно тебе..."></textarea>
+
+    <label>3. Запланированное действие для тела сегодня:</label>
+    <textarea name="day5plan" rows="1" placeholder="Простое действие для себя..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day5')">Сохранить ответы</button>
+    <div class="save-status" id="status-day5"></div>
+  </div>
+
+  <div class="block" id="block-day6">
+    <h2>День 6: План дня — маленькие победы</h2>
+    <label>1. 3 простых задачи на сегодня (сделаю хоть на 10%):</label>
+    <textarea name="day6tasks" rows="2" placeholder="Мини-план, даже если очень простой..."></textarea>
+
+    <label>2. Как я себя поддержу, если не получится?</label>
+    <textarea name="day6support" rows="2" placeholder="Варианты поддержки для себя..."></textarea>
+
+    <label>3. За что себя могу похвалить в конце дня?</label>
+    <textarea name="day6praise" rows="2" placeholder="Хотя бы за что-то одно..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day6')">Сохранить ответы</button>
+    <div class="save-status" id="status-day6"></div>
+  </div>
+
+  <div class="block" id="block-day7">
+    <h2>День 7: Обратная связь с самим собой</h2>
+    <label>1. Что изменилось за неделю?</label>
+    <textarea name="day7changes" rows="2" placeholder="Есть ли небольшие сдвиги?"></textarea>
+
+    <label>2. Что удалось, а что не особо?</label>
+    <textarea name="day7goodbad" rows="2" placeholder="Без осуждения себя..."></textarea>
+
+    <label>3. Мой план, если тревога снова накроет:</label>
+    <textarea name="day7plan" rows="2" placeholder="План минимальной самопомощи..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('day7')">Сохранить ответы</button>
+    <div class="save-status" id="status-day7"></div>
+  </div>
+
+  <div class="block" id="block-emergency">
+    <h2>Экстренная шпаргалка</h2>
+    <p class="mini">Если тревога сейчас сильная — попробуй:</p>
+    <ul>
+      <li>Назови 3 предмета вокруг себя</li>
+      <li>Сделай 5 глубоких вдохов/выдохов</li>
+      <li>Напиши мне или просто запиши, что чувствуешь</li>
+    </ul>
+
+    <label>Мои быстрые анти-тревожные методы (список):</label>
+    <textarea name="emergency" rows="2" placeholder="Подбери свои способы..."></textarea>
+
+    <button type="button" class="btn-save" onclick="saveBlock('emergency')">Сохранить ответы</button>
+    <div class="save-status" id="status-emergency"></div>
+  </div>
+
+  <button type="button" class="btn-accent" onclick="shareNotebook()">Отправить психологу</button>
+  <div class="info">
+    <span>Ответы можно отправить в любое приложение: Telegram, почта, заметки и т.д.</span><br/>
+Автор и оформитель 
+  <a href="https://t.me/mozg4e" style="color:#132538; text-decoration:underline;" target="_blank">PsyWorks</a><br/>
+©2025
+  </div>
+  </form>
+
+  <script>
+    // Массивы для каждого блока
+    const blockFields = {
+      day1: ['day1level', 'day1worry', 'day1useful', 'day1action'],
+      day2: ['day2triggers', 'day2reactions', 'day2newaction'],
+      day3: ['day3mind', 'day3see', 'day3state'],
+      day4: ['day4thought', 'day4action', 'day4result'],
+      day5: ['day5body', 'day5help', 'day5plan'],
+      day6: ['day6tasks', 'day6support', 'day6praise'],
+      day7: ['day7changes', 'day7goodbad', 'day7plan'],
+      emergency: ['emergency']
+    };
+
+    // Сохранение блока
+    function saveBlock(day) {
+      const data = {};
+      blockFields[day].forEach(name => {
+        if (name === 'day3mind') {
+          // чекбоксы
+          data[name] = [];
+          document.querySelectorAll('input[name="day3mind"]:checked').forEach(cb => data[name].push(cb.value));
+        } else {
+          data[name] = document.querySelector(`[name="${name}"]`)?.value || '';
+        }
+      });
+      localStorage.setItem('notebook_' + day, JSON.stringify(data));
+      // Показываем статус
+      const status = document.getElementById('status-' + day);
+      if (status) {
+        status.textContent = 'Сохранено!';
+        setTimeout(()=>{ status.textContent = ''; }, 2000);
+      }
+    }
+
+    // Загрузка при открытии страницы
+    window.addEventListener('DOMContentLoaded', ()=>{
+      Object.keys(blockFields).forEach(day=>{
+        const saved = localStorage.getItem('notebook_' + day);
+        if (saved) {
+          const data = JSON.parse(saved);
+          blockFields[day].forEach(name => {
+            if (name === 'day3mind') {
+              document.querySelectorAll('input[name="day3mind"]').forEach(cb => {
+                cb.checked = data[name]?.includes(cb.value) || false;
+              });
+            } else {
+              const field = document.querySelector(`[name="${name}"]`);
+              if (field) field.value = data[name] || '';
+            }
+          });
+        }
+      });
+    });
+
+    function shareNotebook() {
+      const form = document.getElementById('notebookForm');
+      // Собираем данные из localStorage
+      let allData = {};
+      Object.keys(blockFields).forEach(day => {
+        const saved = localStorage.getItem('notebook_' + day);
+        allData[day] = saved ? JSON.parse(saved) : {};
+      });
+
+      let mind = allData.day3.day3mind || [];
+      let text = "Рабочая тетрадь Артёма (автор: Артур П.)\n";
+      text += "\n--- День 1 ---\n";
+      text += "Моя тревожность сегодня: " + (allData.day1.day1level || "") + "\n";
+      text += "Что меня тревожит: " + (allData.day1.day1worry || "") + "\n";
+      text += "Чем эти тревоги полезны: " + (allData.day1.day1useful || "") + "\n";
+      text += "Действия сегодня: " + (allData.day1.day1action || "") + "\n";
+
+      text += "\n--- День 2 ---\n";
+      text += "Когда тревожусь: " + (allData.day2.day2triggers || "") + "\n";
+      text += "Мои реакции: " + (allData.day2.day2reactions || "") + "\n";
+      text += "Что сделать по-другому: " + (allData.day2.day2newaction || "") + "\n";
+
+      text += "\n--- День 3 ---\n";
+      text += "Где мои мысли сейчас: " + mind.join(", ") + "\n";
+      text += "5 вещей, которые вижу: " + (allData.day3.day3see || "") + "\n";
+      text += "Как изменилось состояние: " + (allData.day3.day3state || "") + "\n";
+
+      text += "\n--- День 4 ---\n";
+      text += "Липкая мысль: " + (allData.day4.day4thought || "") + "\n";
+      text += "Что делал с мыслью: " + (allData.day4.day4action || "") + "\n";
+      text += "Что сработало: " + (allData.day4.day4result || "") + "\n";
+
+      text += "\n--- День 5 ---\n";
+      text += "Где в теле тревога: " + (allData.day5.day5body || "") + "\n";
+      text += "Что помогает снизить напряжение: " + (allData.day5.day5help || "") + "\n";
+      text += "Запланированное действие для тела: " + (allData.day5.day5plan || "") + "\n";
+
+      text += "\n--- День 6 ---\n";
+      text += "3 задачи: " + (allData.day6.day6tasks || "") + "\n";
+      text += "Как поддержу себя: " + (allData.day6.day6support || "") + "\n";
+      text += "За что похвалить себя: " + (allData.day6.day6praise || "") + "\n";
+
+      text += "\n--- День 7 ---\n";
+      text += "Что изменилось: " + (allData.day7.day7changes || "") + "\n";
+      text += "Что удалось, что нет: " + (allData.day7.day7goodbad || "") + "\n";
+      text += "План если тревога вернётся: " + (allData.day7.day7plan || "") + "\n";
+
+      text += "\n--- Экстренная шпаргалка ---\n";
+      text += "Мои методы: " + (allData.emergency.emergency || "") + "\n";
+
+      if (navigator.share) {
+        navigator.share({
+          title: "Рабочая тетрадь Артёма (Артур П.)",
+          text: text
+        })
+        .catch((e)=>{ /* Пользователь отменил — ничего не делать */ });
+      } else {
+        navigator.clipboard.writeText(text);
+        alert('Web Share не поддерживается этим браузером. Твои ответы скопированы в буфер обмена — можешь вставить их вручную в любое приложение.');
+      }
+    }
+  </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(function(reg) {
+        // регистрация успешна
+      }, function(err) {
+        // ошибка
+      });
+  });
+}
+</script>
+
+</body>
+</html>
